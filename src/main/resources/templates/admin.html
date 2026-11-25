@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{menu :: menu}"></div>
+<main>
+    <h1>Admin</h1>
+    <h2>Users</h2>
+    <table>
+        <tr><th>ID</th><th>Username</th><th>Role</th></tr>
+        <tr th:each="u : ${users}">
+            <td th:text="${u.id}">1</td>
+            <td th:text="${u.username}">name</td>
+            <td th:text="${u.role}">USER</td>
+        </tr>
+    </table>
+</main>
+</body>
+</html>

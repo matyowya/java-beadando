@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{menu :: menu}"></div>
+<main>
+    <h1>Login</h1>
+    <p th:if="${param.registered}" class="ok">sucessful registration</p>
+    <p th:if="${param.error}" class="error">invalid password or user</p>
+    <form th:action="@{/login}" method="post">
+        <label>Felhasználónév <input type="text" name="username" required autofocus></label>
+        <label>Jelszó <input type="password" name="password" required></label>
+        <button type="submit">Login</button>
+    </form>
+     <a th:href="@{/register}">Register</a></p>
+</main>
+</body>
+</html>

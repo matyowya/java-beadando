@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="menu" class="menu">
+    <a th:href="@{/}">Home</a>
+    <a th:if="${loggedIn}" th:href="@{/user}">User</a>
+    <a th:if="${isAdmin}" th:href="@{/admin}">Admin</a>
+
+    <span class="menu-right">
+        <th:block th:unless="${loggedIn}">
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/register}">Register</a>
+        </th:block>
+        <th:block th:if="${loggedIn}">
+            <span th:text="${currentUser}">User</span>
+            <form th:action="@{/logout}" method="post" class="inline">
+                <button type="submit">Logout</button>
+            </form>
+        </th:block>
+    </span>
+</nav>
+</body>
+</html>

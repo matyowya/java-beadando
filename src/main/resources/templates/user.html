@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{menu :: menu}"></div>
+<main>
+    <h1>User</h1>
+    <p>Szia, <span th:text="${currentUser}">user</span>!</p>
+</main>
+</body>
+</html>
