@@ -4,7 +4,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-/** A Kapcsolat űrlap adatai, szerver oldali validációval. */
 public class KapcsolatForm {
 
     @NotBlank(message = "A név megadása kötelező.")

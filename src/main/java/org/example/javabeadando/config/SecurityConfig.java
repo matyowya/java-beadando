@@ -25,11 +25,11 @@ public class SecurityConfig {
                 .requestMatchers("/", "/login", "/register", "/adatbazis", "/kapcsolat", "/error", "/css/**", "/js/**", "/images/**").permitAll()
                 .requestMatchers("/admin", "/admin/**").hasRole("ADMIN")
                 .requestMatchers("/user", "/user/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/uzenetek").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .loginPage("/login")
-                // Belépés után: admin -> /admin, mindenki más -> /user
                 .successHandler((request, response, authentication) -> {
                     boolean isAdmin = authentication.getAuthorities().stream()
                             .map(GrantedAuthority::getAuthority)

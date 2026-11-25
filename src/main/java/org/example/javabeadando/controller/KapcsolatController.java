@@ -34,7 +34,6 @@ public class KapcsolatController {
     public String kuldes(@Valid @ModelAttribute("kapcsolatForm") KapcsolatForm form,
                          BindingResult hibak,
                          Authentication authentication) {
-        // Szerver oldali validáció: hiba esetén az űrlap újra, a hibaüzenetekkel
         if (hibak.hasErrors()) {
             return "kapcsolat";
         }

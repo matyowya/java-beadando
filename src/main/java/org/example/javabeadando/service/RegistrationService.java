@@ -16,7 +16,6 @@ public class RegistrationService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    /** Új, sima felhasználó (USER szerep). Hibánál a hibaüzenetet adja vissza, sikernél null-t. */
     public String register(String username, String password) {
         if (username == null || username.isBlank() || password == null || password.isBlank()) {
             return "A felhasználónév és a jelszó nem lehet üres.";

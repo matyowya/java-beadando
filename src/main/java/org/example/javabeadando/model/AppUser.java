@@ -16,7 +16,6 @@ public class AppUser {
     @Column(nullable = false)
     private String password;
 
-    // "USER" vagy "ADMIN"
     @Column(nullable = false)
     private String role;
 

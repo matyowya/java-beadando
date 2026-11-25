@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Üzenetek</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{menu :: menu}"></div>
+<main class="wide">
+    <h1>Üzenetek</h1>
+
+    <p th:if="${#lists.isEmpty(uzenetek)}">Még nem érkezett üzenet.</p>
+
+    <table th:unless="${#lists.isEmpty(uzenetek)}">
+        <tr>
+            <th>Küldés ideje</th><th>Név</th><th>E-mail</th><th>Tárgy</th><th>Üzenet</th><th>Felhasználó</th>
+        </tr>
+        <tr th:each="u : ${uzenetek}">
+            <td class="nowrap" th:text="${#temporals.format(u.kuldesIdeje, 'yyyy.MM.dd. HH:mm:ss')}">2026.11.25. 21:15:00</td>
+            <td th:text="${u.nev}">Név</td>
+            <td th:text="${u.email}">email</td>
+            <td th:text="${u.targy}">Tárgy</td>
+            <td class="uzenet-szoveg" th:text="${u.szoveg}">Üzenet</td>
+            <td th:text="${u.felhasznalo} ?: 'látogató'">látogató</td>
+        </tr>
+    </table>
+</main>
+</body>
+</html>
