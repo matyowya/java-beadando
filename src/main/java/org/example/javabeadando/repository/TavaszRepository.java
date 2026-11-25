@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface TavaszRepository extends JpaRepository<Tavasz, Long> {
 
+    boolean existsBySzallodaAz(String az);
+
     @Query("""
             select t from Tavasz t
             join fetch t.szalloda s

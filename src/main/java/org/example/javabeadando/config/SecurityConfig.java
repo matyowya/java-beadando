@@ -24,6 +24,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/login", "/register", "/adatbazis", "/kapcsolat", "/diagram", "/error", "/css/**", "/js/**", "/images/**").permitAll()
                 .requestMatchers("/admin", "/admin/**").hasRole("ADMIN")
+                .requestMatchers("/crud", "/crud/**").hasRole("ADMIN")
                 .requestMatchers("/user", "/user/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/uzenetek").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
@@ -47,7 +48,7 @@ public class SecurityConfig {
             .exceptionHandling(ex -> ex
                 .authenticationEntryPoint((request, response, authException) -> {
                     String path = request.getRequestURI().substring(request.getContextPath().length());
-                    String target = path.startsWith("/admin") ? "/" : "/login";
+                    String target = path.startsWith("/admin") || path.startsWith("/crud") ? "/" : "/login";
                     response.sendRedirect(request.getContextPath() + target);
                 })
                 .accessDeniedHandler((request, response, accessDeniedException) ->

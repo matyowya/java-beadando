@@ -8,6 +8,9 @@ import java.util.List;
 
 public interface SzallodaRepository extends JpaRepository<Szalloda, String> {
 
+    @Query("select s from Szalloda s join fetch s.helyseg order by s.nev")
+    List<Szalloda> mindenHelyseggel();
+
     @Query("""
             select s.nev as nev, s.besorolas as besorolas, s.felpanzio as felpanzio,
                    h.nev as helyseg, h.orszag as orszag,
