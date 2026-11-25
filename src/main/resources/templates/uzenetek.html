@@ -2,29 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="hu">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Üzenetek</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/flatly/bootstrap.min.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <div th:replace="~{menu :: menu}"></div>
-<main class="wide">
+<main class="container py-4 flex-grow-1">
     <h1>Üzenetek</h1>
 
     <p th:if="${#lists.isEmpty(uzenetek)}">Még nem érkezett üzenet.</p>
 
-    <table th:unless="${#lists.isEmpty(uzenetek)}">
-        <tr>
-            <th>Küldés ideje</th><th>Név</th><th>E-mail</th><th>Tárgy</th><th>Üzenet</th><th>Felhasználó</th>
-        </tr>
-        <tr th:each="u : ${uzenetek}">
-            <td class="nowrap" th:text="${#temporals.format(u.kuldesIdeje, 'yyyy.MM.dd. HH:mm:ss')}">2026.11.25. 21:15:00</td>
-            <td th:text="${u.nev}">Név</td>
-            <td th:text="${u.email}">email</td>
-            <td th:text="${u.targy}">Tárgy</td>
-            <td class="uzenet-szoveg" th:text="${u.szoveg}">Üzenet</td>
-            <td th:text="${u.felhasznalo} ?: 'látogató'">látogató</td>
-        </tr>
-    </table>
+    <div class="table-responsive" th:unless="${#lists.isEmpty(uzenetek)}">
+        <table class="table table-striped table-hover align-top">
+            <thead>
+            <tr>
+                <th>Küldés ideje</th><th>Név</th><th>E-mail</th><th>Tárgy</th><th>Üzenet</th><th>Felhasználó</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u : ${uzenetek}">
+                <td class="text-nowrap" th:text="${#temporals.format(u.kuldesIdeje, 'yyyy.MM.dd. HH:mm:ss')}">2026.11.25. 21:15:00</td>
+                <td th:text="${u.nev}">Név</td>
+                <td th:text="${u.email}">email</td>
+                <td th:text="${u.targy}">Tárgy</td>
+                <td class="text-break" th:text="${u.szoveg}">Üzenet</td>
+                <td th:text="${u.felhasznalo} ?: 'látogató'">látogató</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </main>
+<th:block th:replace="~{footer :: footer}"></th:block>
 </body>
 </html>

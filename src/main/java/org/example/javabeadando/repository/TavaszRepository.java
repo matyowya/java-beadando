@@ -21,4 +21,18 @@ public interface TavaszRepository extends JpaRepository<Tavasz, Long> {
     List<Tavasz> keres(@Param("orszag") String orszag,
                        @Param("helysegAz") Integer helysegAz,
                        @Param("idotartam") Integer idotartam);
+
+    @Query("""
+            select s.nev as szalloda, t.idotartam as idotartam, avg(t.ar) as atlagAr
+            from Tavasz t join t.szalloda s
+            group by s.nev, t.idotartam
+            order by s.nev, t.idotartam
+            """)
+    List<AtlagAr> atlagArak();
+
+    interface AtlagAr {
+        String getSzalloda();
+        Integer getIdotartam();
+        Double getAtlagAr();
+    }
 }

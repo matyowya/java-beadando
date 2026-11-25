@@ -2,75 +2,94 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="hu">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Adatbázis</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/flatly/bootstrap.min.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <div th:replace="~{menu :: menu}"></div>
-<main class="wide">
-    <h1>Adatbázis – Napfény Tours, 2011 tavasz</h1>
+<main class="container py-4 flex-grow-1">
+    <h1>Adatbázis</h1>
 
     <p><span th:text="${helysegekSzama}">4</span> helység, <span th:text="${szallodakSzama}">12</span> szálloda, <span th:text="${ajanlatokSzama}">456</span> ajánlat</p>
 
-    <h2>Szállodák</h2>
-    <table>
-        <tr>
-            <th>Szálloda</th><th>Besorolás</th><th>Helység</th><th>Ország</th>
-            <th>Félpanzió</th><th class="num">Ajánlatok</th><th class="num">Legolcsóbb</th>
-        </tr>
-        <tr th:each="s : ${osszesito}">
-            <td th:text="${s.nev}">Baron Resort</td>
-            <td th:text="${s.besorolas}">5</td>
-            <td th:text="${s.helyseg}">Sharm El Sheikh</td>
-            <td th:text="${s.orszag}">Egyiptom</td>
-            <td th:text="${s.felpanzio} ? 'igen' : 'nem'">igen</td>
-            <td class="num" th:text="${s.ajanlatokSzama}">33</td>
-            <td class="num" th:text="${#numbers.formatInteger(s.legolcsobb, 3, 'WHITESPACE')} + ' Ft'">99 900 Ft</td>
-        </tr>
-    </table>
+    <h2 class="h4 mt-4">Szállodák</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Szálloda</th><th>Besorolás</th><th>Helység</th><th>Ország</th>
+                <th>Félpanzió</th><th class="text-end">Ajánlatok</th><th class="text-end">Legolcsóbb</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="s : ${osszesito}">
+                <td th:text="${s.nev}">Baron Resort</td>
+                <td th:text="${s.besorolas}">5</td>
+                <td th:text="${s.helyseg}">Sharm El Sheikh</td>
+                <td th:text="${s.orszag}">Egyiptom</td>
+                <td th:text="${s.felpanzio} ? 'igen' : 'nem'">igen</td>
+                <td class="text-end" th:text="${s.ajanlatokSzama}">33</td>
+                <td class="text-end text-nowrap" th:text="${#numbers.formatInteger(s.legolcsobb, 3, 'WHITESPACE')} + ' Ft'">99 900 Ft</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <h2>Ajánlatok</h2>
-    <form th:action="@{/adatbazis}" method="get" class="filter">
-        <label>Ország
-            <select name="orszag">
+    <h2 class="h4 mt-4">Ajánlatok</h2>
+    <form th:action="@{/adatbazis}" method="get" class="row g-2 align-items-end mb-3">
+        <div class="col-sm-auto">
+            <label class="form-label" for="orszag">Ország</label>
+            <select class="form-select" id="orszag" name="orszag">
                 <option value="">mind</option>
                 <option th:each="o : ${orszagok}" th:value="${o}" th:text="${o}"
                         th:selected="${o == valasztottOrszag}">Egyiptom</option>
             </select>
-        </label>
-        <label>Helység
-            <select name="helyseg">
+        </div>
+        <div class="col-sm-auto">
+            <label class="form-label" for="helyseg">Helység</label>
+            <select class="form-select" id="helyseg" name="helyseg">
                 <option value="">mind</option>
                 <option th:each="h : ${helysegek}" th:value="${h.az}" th:text="${h.nev + ' (' + h.orszag + ')'}"
                         th:selected="${h.az == valasztottHelyseg}">Sousse</option>
             </select>
-        </label>
-        <label>Időtartam
-            <select name="idotartam">
+        </div>
+        <div class="col-sm-auto">
+            <label class="form-label" for="idotartam">Időtartam</label>
+            <select class="form-select" id="idotartam" name="idotartam">
                 <option value="">mind</option>
                 <option value="8" th:selected="${valasztottIdotartam == 8}">8 nap</option>
                 <option value="15" th:selected="${valasztottIdotartam == 15}">15 nap</option>
             </select>
-        </label>
-        <button type="submit">Szűrés</button>
-        <a th:href="@{/adatbazis}">Törlés</a>
+        </div>
+        <div class="col-sm-auto">
+            <button type="submit" class="btn btn-primary">Szűrés</button>
+            <a class="btn btn-outline-secondary" th:href="@{/adatbazis}">Törlés</a>
+        </div>
     </form>
 
     <p><span th:text="${#lists.size(ajanlatok)}">0</span> találat</p>
-    <table>
-        <tr>
-            <th>Indulás</th><th>Szálloda</th><th>Helység</th><th>Ország</th>
-            <th class="num">Időtartam</th><th class="num">Ár</th>
-        </tr>
-        <tr th:each="t : ${ajanlatok}">
-            <td th:text="${#temporals.format(t.indulas, 'yyyy.MM.dd.')}">2011.01.05.</td>
-            <td th:text="${t.szalloda.nev}">Baron Resort</td>
-            <td th:text="${t.szalloda.helyseg.nev}">Sharm El Sheikh</td>
-            <td th:text="${t.szalloda.helyseg.orszag}">Egyiptom</td>
-            <td class="num" th:text="${t.idotartam} + ' nap'">8 nap</td>
-            <td class="num" th:text="${#numbers.formatInteger(t.ar, 3, 'WHITESPACE')} + ' Ft'">244 900 Ft</td>
-        </tr>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Indulás</th><th>Szálloda</th><th>Helység</th><th>Ország</th>
+                <th class="text-end">Időtartam</th><th class="text-end">Ár</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="t : ${ajanlatok}">
+                <td th:text="${#temporals.format(t.indulas, 'yyyy.MM.dd.')}">2011.01.05.</td>
+                <td th:text="${t.szalloda.nev}">Baron Resort</td>
+                <td th:text="${t.szalloda.helyseg.nev}">Sharm El Sheikh</td>
+                <td th:text="${t.szalloda.helyseg.orszag}">Egyiptom</td>
+                <td class="text-end" th:text="${t.idotartam} + ' nap'">8 nap</td>
+                <td class="text-end text-nowrap" th:text="${#numbers.formatInteger(t.ar, 3, 'WHITESPACE')} + ' Ft'">244 900 Ft</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </main>
+<th:block th:replace="~{footer :: footer}"></th:block>
 </body>
 </html>

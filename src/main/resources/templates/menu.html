@@ -1,26 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<nav th:fragment="menu" class="menu">
-    <a th:href="@{/}">Home</a>
-    <a th:href="@{/adatbazis}">Adatbázis</a>
-    <a th:href="@{/kapcsolat}">Kapcsolat</a>
-    <a th:if="${loggedIn}" th:href="@{/uzenetek}">Üzenetek</a>
-    <a th:if="${loggedIn}" th:href="@{/user}">User</a>
-    <a th:if="${isAdmin}" th:href="@{/admin}">Admin</a>
-
-    <span class="menu-right">
-        <th:block th:unless="${loggedIn}">
-            <a th:href="@{/login}">Login</a>
-            <a th:href="@{/register}">Register</a>
-        </th:block>
-        <th:block th:if="${loggedIn}">
-            <span th:text="${currentUser}">User</span>
-            <form th:action="@{/logout}" method="post" class="inline">
-                <button type="submit">Logout</button>
-            </form>
-        </th:block>
-    </span>
+<nav th:fragment="menu" class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#fomenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="fomenu">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/adatbazis}">Adatbázis</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/kapcsolat}">Kapcsolat</a></li>
+                <li class="nav-item" th:if="${loggedIn}"><a class="nav-link" th:href="@{/uzenetek}">Üzenetek</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/diagram}">Diagram</a></li>
+                <li class="nav-item" th:if="${loggedIn}"><a class="nav-link" th:href="@{/user}">User</a></li>
+                <li class="nav-item" th:if="${isAdmin}"><a class="nav-link" th:href="@{/admin}">Admin</a></li>
+            </ul>
+            <ul class="navbar-nav align-items-lg-center">
+                <th:block th:unless="${loggedIn}">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/login}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/register}">Register</a></li>
+                </th:block>
+                <th:block th:if="${loggedIn}">
+                    <li class="nav-item"><span class="navbar-text me-3" th:text="${currentUser}">User</span></li>
+                    <li class="nav-item">
+                        <form th:action="@{/logout}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+                        </form>
+                    </li>
+                </th:block>
+            </ul>
+        </div>
+    </div>
 </nav>
 </body>
 </html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Diagram</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/flatly/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="~{menu :: menu}"></div>
+<main class="container py-4 flex-grow-1">
+    <h1>Diagram</h1>
+    <p>Átlagár szállodánként, 8 és 15 napos utakra.</p>
+    <div class="card">
+        <div class="card-body">
+            <canvas id="atlagArDiagram"></canvas>
+        </div>
+    </div>
+</main>
+<th:block th:replace="~{footer :: footer}"></th:block>
+<script th:inline="javascript">
+    const szallodak = [[${szallodak}]];
+    const nyolcNap = [[${nyolcNap}]];
+    const tizenotNap = [[${tizenotNap}]];
+    const ft = v => v.toLocaleString('hu-HU') + ' Ft';
+
+    new Chart(document.getElementById('atlagArDiagram'), {
+        type: 'bar',
+        data: {
+            labels: szallodak,
+            datasets: [
+                { label: '8 nap', data: nyolcNap, backgroundColor: '#18bc9c' },
+                { label: '15 nap', data: tizenotNap, backgroundColor: '#2c3e50' }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: { callbacks: { label: c => c.dataset.label + ': ' + ft(c.parsed.y) } }
+            },
+            scales: {
+                y: { beginAtZero: true, ticks: { callback: ft } }
+            }
+        }
+    });
+</script>
+</body>
+</html>

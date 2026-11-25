@@ -2,14 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="hu">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>User</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/flatly/bootstrap.min.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <div th:replace="~{menu :: menu}"></div>
-<main>
+<main class="container py-4 flex-grow-1">
     <h1>User</h1>
     <p>Szia, <span th:text="${currentUser}">user</span>!</p>
 </main>
+<th:block th:replace="~{footer :: footer}"></th:block>
 </body>
 </html>

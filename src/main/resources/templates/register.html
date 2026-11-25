@@ -2,20 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="hu">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Register</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/flatly/bootstrap.min.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <div th:replace="~{menu :: menu}"></div>
-<main>
-    <h1>Register</h1>
-    <p th:if="${error}" th:text="${error}" class="error">invalid</p>
-    <form th:action="@{/register}" method="post">
-        <label>Username <input type="text" name="username" th:value="${username}" required autofocus></label>
-        <label>Password <input type="password" name="password" required></label>
-        <button type="submit">Register</button>
-    </form>
-    <a th:href="@{/login}">Login</a></p>
+<main class="container py-4 flex-grow-1">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <h1>Register</h1>
+            <div th:if="${error}" th:text="${error}" class="alert alert-danger">invalid</div>
+            <form th:action="@{/register}" method="post">
+                <div class="mb-3">
+                    <label class="form-label" for="username">Username</label>
+                    <input class="form-control" type="text" id="username" name="username" th:value="${username}" required autofocus>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="password">Password</label>
+                    <input class="form-control" type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+            <p class="mt-3"><a th:href="@{/login}">Login</a></p>
+        </div>
+    </div>
 </main>
+<th:block th:replace="~{footer :: footer}"></th:block>
 </body>
 </html>
