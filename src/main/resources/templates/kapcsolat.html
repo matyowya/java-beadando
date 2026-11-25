@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Kapcsolat</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{menu :: menu}"></div>
+<main>
+    <h1>Kapcsolat</h1>
+    <p>Üzenj az oldal adminjának.</p>
+
+    <p th:if="${param.elkuldve}" class="ok">Köszönjük, az üzenetedet elküldtük.</p>
+
+    <form th:action="@{/kapcsolat}" th:object="${kapcsolatForm}" method="post" novalidate>
+        <label>Név
+            <input type="text" th:field="*{nev}">
+            <span class="error" th:if="${#fields.hasErrors('nev')}" th:errors="*{nev}">hiba</span>
+        </label>
+        <label>E-mail
+            <input type="email" th:field="*{email}">
+            <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">hiba</span>
+        </label>
+        <label>Tárgy
+            <input type="text" th:field="*{targy}">
+            <span class="error" th:if="${#fields.hasErrors('targy')}" th:errors="*{targy}">hiba</span>
+        </label>
+        <label>Üzenet
+            <textarea th:field="*{szoveg}" rows="6"></textarea>
+            <span class="error" th:if="${#fields.hasErrors('szoveg')}" th:errors="*{szoveg}">hiba</span>
+        </label>
+        <button type="submit">Küldés</button>
+    </form>
+</main>
+</body>
+</html>
