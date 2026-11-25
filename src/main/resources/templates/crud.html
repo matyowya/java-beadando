@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CRUD</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/flatly/bootstrap.min.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="~{menu :: menu}"></div>
+<main class="container py-4 flex-grow-1">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">Szállodák</h1>
+        <a class="btn btn-primary" th:href="@{/crud/uj}">Új szálloda</a>
+    </div>
+
+    <div th:if="${uzenet}" class="alert alert-success" th:text="${uzenet}">ok</div>
+    <div th:if="${hiba}" class="alert alert-danger" th:text="${hiba}">hiba</div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+            <tr>
+                <th>Kód</th><th>Név</th><th>Besorolás</th><th>Helység</th>
+                <th class="text-end">Tengerpart (m)</th><th class="text-end">Reptér (km)</th><th>Félpanzió</th><th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="s : ${szallodak}">
+                <td th:text="${s.az}">BS</td>
+                <td th:text="${s.nev}">Baron Resort</td>
+                <td th:text="${s.besorolas}">5</td>
+                <td th:text="${s.helyseg.nev}">Sharm El Sheikh</td>
+                <td class="text-end" th:text="${s.tengerpartTav}">0</td>
+                <td class="text-end" th:text="${s.repterTav}">15</td>
+                <td th:text="${s.felpanzio} ? 'igen' : 'nem'">igen</td>
+                <td class="text-end text-nowrap">
+                    <a class="btn btn-sm btn-outline-primary" th:href="@{/crud/{az}/szerkeszt(az=${s.az})}">Szerkesztés</a>
+                    <form th:action="@{/crud/{az}/torol(az=${s.az})}" method="post" class="d-inline"
+                          onsubmit="return confirm('Biztosan törlöd?');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Törlés</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<th:block th:replace="~{footer :: footer}"></th:block>
+</body>
+</html>

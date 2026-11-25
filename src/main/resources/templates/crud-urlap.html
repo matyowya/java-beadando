@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CRUD</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/flatly/bootstrap.min.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="~{menu :: menu}"></div>
+<main class="container py-4 flex-grow-1">
+    <div class="row">
+        <div class="col-lg-6">
+            <h1 th:text="${szerkesztes} ? 'Szálloda szerkesztése' : 'Új szálloda'">Új szálloda</h1>
+
+            <form th:action="${szerkesztes} ? @{/crud/{az}/szerkeszt(az=${szallodaForm.az})} : @{/crud/uj}"
+                  th:object="${szallodaForm}" method="post" novalidate>
+                <div class="mb-3">
+                    <label class="form-label" for="az">Kód</label>
+                    <input type="text" class="form-control" th:field="*{az}" th:errorclass="is-invalid"
+                           th:readonly="${szerkesztes}" maxlength="2">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('az')}" th:errors="*{az}">hiba</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="nev">Név</label>
+                    <input type="text" class="form-control" th:field="*{nev}" th:errorclass="is-invalid">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('nev')}" th:errors="*{nev}">hiba</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="besorolas">Besorolás</label>
+                    <input type="number" class="form-control" th:field="*{besorolas}" th:errorclass="is-invalid">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('besorolas')}" th:errors="*{besorolas}">hiba</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="helysegAz">Helység</label>
+                    <select class="form-select" th:field="*{helysegAz}" th:errorclass="is-invalid">
+                        <option value="">válassz</option>
+                        <option th:each="h : ${helysegek}" th:value="${h.az}" th:text="${h.nev + ' (' + h.orszag + ')'}">Sousse</option>
+                    </select>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('helysegAz')}" th:errors="*{helysegAz}">hiba</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="tengerpartTav">Tengerpart távolság (m)</label>
+                    <input type="number" class="form-control" th:field="*{tengerpartTav}" th:errorclass="is-invalid">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('tengerpartTav')}" th:errors="*{tengerpartTav}">hiba</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="repterTav">Reptér távolság (km)</label>
+                    <input type="number" class="form-control" th:field="*{repterTav}" th:errorclass="is-invalid">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('repterTav')}" th:errors="*{repterTav}">hiba</div>
+                </div>
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" th:field="*{felpanzio}">
+                    <label class="form-check-label" th:for="${#ids.prev('felpanzio')}">Félpanzió</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Mentés</button>
+                <a class="btn btn-outline-secondary" th:href="@{/crud}">Mégse</a>
+            </form>
+        </div>
+    </div>
+</main>
+<th:block th:replace="~{footer :: footer}"></th:block>
+</body>
+</html>
